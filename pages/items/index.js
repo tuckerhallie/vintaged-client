@@ -19,7 +19,6 @@ export default function ItemPage() {
 
   const getFavoriteItemsForUser = () => {
     if (user) {
-      console.warn('User ID:', user.uid);
       getFavoriteUserItems(user.uid).then((favs) => {
         setFavoriteItems(favs);
       }).catch((error) => console.error('error fetching favorite items:', error));
@@ -33,9 +32,8 @@ export default function ItemPage() {
 
   const onUpdate = (itemId, isCurrentlyFavorite) => {
     if (isCurrentlyFavorite) {
-      console.warn('Item ID type:', typeof itemId);
-      console.warn('Sample favorite item ID type:', typeof favoriteItems[0]?.item.id);
       const favorite = favoriteItems.find((fav) => fav.item.id === itemId);
+      console.warn(favorite);
       if (favorite) {
         deleteFavoriteItem(favorite.id, user.uid).then(() => {
           setFavoriteItems((favs) => favs.filter((fav) => fav.item.id !== itemId));
@@ -43,13 +41,14 @@ export default function ItemPage() {
       }
     } else {
       createFavoriteItem(itemId, user.uid).then((newFavorite) => {
+        console.warn('Favorite created:', newFavorite);
         setFavoriteItems((favs) => [...favs, { ...newFavorite, item: { id: itemId } }]);
       });
     }
   };
 
   // Placeholder function for checking if an item is favorite
-  const isItemFavorite = (itemId) => favoriteItems.some((item) => item.id === itemId);
+  const isItemFavorite = (itemId) => favoriteItems.some((item) => item.item.id === itemId);
 
   return (
     <>
@@ -66,7 +65,7 @@ export default function ItemPage() {
             <ItemCard
               key={item.id}
               itemObj={item}
-              isFavorite={isItemFavorite(item.id)} // Pass isFavorite status as prop
+              isFavorite={() => isItemFavorite(item.id)} // Pass isFavorite status as prop
               onUpdate={(itemId, isFavorite) => onUpdate(itemId, isFavorite)} // Placeholder onUpdate function
             />
           ))}

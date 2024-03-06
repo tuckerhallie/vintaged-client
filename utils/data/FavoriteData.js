@@ -60,7 +60,7 @@ const getFavoriteUserItems = async (uid) => {
       throw new Error('Failed to fetch favorite items');
     }
     const items = await response.json();
-    return Object.values(items); // Adjust this line if needed based on your actual response structure
+    return items; // Adjust this line if needed based on your actual response structure
   } catch (error) {
     console.error('Error fetching favorite items:', error);
     throw error;
