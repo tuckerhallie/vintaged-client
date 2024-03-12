@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
@@ -143,7 +144,7 @@ ItemForm.propTypes = {
     color: PropTypes.string,
     image: PropTypes.string,
     // eslint-disable-next-line react/forbid-prop-types
-    store: PropTypes.object,
+    // store: PropTypes.string,
   }),
 };
 
