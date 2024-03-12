@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from 'react';
@@ -5,6 +6,7 @@ import PropTypes from 'prop-types';
 import Card from 'react-bootstrap/Card';
 import { Heart, HeartFill } from 'react-bootstrap-icons';
 import { useRouter } from 'next/router';
+import { createFavoriteItem, deleteFavoriteItem } from '../../utils/data/FavoriteData';
 import { useAuth } from '../../utils/context/authContext';
 
 function ItemCard({ itemObj, isFavorite, onUpdate }) {
@@ -18,11 +20,11 @@ function ItemCard({ itemObj, isFavorite, onUpdate }) {
   };
 
   const handleFavorite = () => {
-    if (!user) {
-      console.error('User is not authenticated');
-      return;
+    if (!isFavorite) {
+      createFavoriteItem(itemObj.id, user.uid).then(() => onUpdate());
+    } else {
+      deleteFavoriteItem(itemObj.id, user.uid).then(() => onUpdate());
     }
-    onUpdate(itemObj.id, !isFavorite);
   };
 
   return (
@@ -45,7 +47,7 @@ ItemCard.propTypes = {
     name: PropTypes.string,
     id: PropTypes.number,
   }).isRequired,
-  isFavorite: PropTypes.bool.isRequired,
+  // isFavorite: PropTypes.bool,
   onUpdate: PropTypes.func.isRequired,
 };
 

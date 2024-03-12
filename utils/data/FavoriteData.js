@@ -35,11 +35,12 @@ const createFavoriteItem = async (itemId, uid) => {
   }
   return response.json();
 };
-const deleteFavoriteItem = async (favoriteId) => {
+const deleteFavoriteItem = async (favoriteId, uid) => {
   const response = await fetch(`${clientCredentials.databaseURL}/itemfavorites/${favoriteId}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
+      Authorization: `${uid}`,
     },
   });
   if (!response.ok) {

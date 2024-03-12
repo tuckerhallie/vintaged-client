@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Head from 'next/head';
 import { Button } from 'react-bootstrap';
 import { getAllItems } from '../../utils/data/ItemData';
-import { getFavoriteUserItems, createFavoriteItem, deleteFavoriteItem } from '../../utils/data/FavoriteData';
+import { getFavoriteUserItems } from '../../utils/data/FavoriteData';
 import ItemCard from '../../components/items/ItemCard';
 import { useAuth } from '../../utils/context/authContext';
 
@@ -30,25 +30,10 @@ export default function ItemPage() {
     getFavoriteItemsForUser();
   }, [user]);
 
-  const onUpdate = (itemId, isCurrentlyFavorite) => {
-    if (isCurrentlyFavorite) {
-      const favorite = favoriteItems.find((fav) => fav.item.id === itemId);
-      console.warn(favorite);
-      if (favorite) {
-        deleteFavoriteItem(favorite.id, user.uid).then(() => {
-          setFavoriteItems((favs) => favs.filter((fav) => fav.item.id !== itemId));
-        });
-      }
-    } else {
-      createFavoriteItem(itemId, user.uid).then((newFavorite) => {
-        console.warn('Favorite created:', newFavorite);
-        setFavoriteItems((favs) => [...favs, { ...newFavorite, item: { id: itemId } }]);
-      });
-    }
+  const onUpdate = () => {
+    getAllTheItems();
+    getFavoriteItemsForUser();
   };
-
-  // Placeholder function for checking if an item is favorite
-  const isItemFavorite = (itemId) => favoriteItems.some((item) => item.item.id === itemId);
 
   return (
     <>
@@ -65,8 +50,8 @@ export default function ItemPage() {
             <ItemCard
               key={item.id}
               itemObj={item}
-              isFavorite={() => isItemFavorite(item.id)} // Pass isFavorite status as prop
-              onUpdate={(itemId, isFavorite) => onUpdate(itemId, isFavorite)} // Placeholder onUpdate function
+              isFavorite={favoriteItems.some((thing) => thing.item.id === item.id)} // Pass isFavorite status as prop
+              onUpdate={onUpdate} // Placeholder onUpdate function
             />
           ))}
         </div>

@@ -14,7 +14,7 @@ export default function NavBar() {
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
       <Container>
         <Link passHref href="/items">
-          <Navbar.Brand>Vintaged</Navbar.Brand>
+          <Navbar.Brand>SecondHand</Navbar.Brand>
         </Link>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
@@ -25,6 +25,9 @@ export default function NavBar() {
             </Link>
             <Link passHref href="/stores">
               <Nav.Link>Stores</Nav.Link>
+            </Link>
+            <Link passHref href="/favorites">
+              <Nav.Link>Favorites</Nav.Link>
             </Link>
             <Link passHref href="/profile">
               <Nav.Link>Profile</Nav.Link>
